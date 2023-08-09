@@ -95,6 +95,7 @@
 
                         </div>
                         <div class="form-group">
+
                             <x-form.textarea name="description" label="true" id="description_id" labelName=" الوصف" />
                         </div>
                     </div>
