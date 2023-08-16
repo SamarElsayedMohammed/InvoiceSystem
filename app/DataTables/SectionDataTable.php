@@ -23,7 +23,16 @@ class SectionDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'section.action')
+            ->editColumn('action', function ($section) {
+                $actions = "<div class='d-flex justify-content-between'>";
+
+                $actions .= "<button style='outline:none;border:none;' type='button' class='btn btn-default' data-id='$section->id' data-section_name='$section->section_name' data-section_description='" . $section->description . "' data-toggle='modal' data-target='#modal-sm2'><i style='color:blue;' class='far fa-edit'></i></button> ";
+
+                $actions .= "<button style='outline:none;border:none;' type='button' class='btn btn-default m-2' data-id='$section->id' data-section_name='$section->section_name ' data-description=' $section->description' data-toggle='modal' data-target='#modal-sm3'><i style='color:red;' class='far fa-trash-alt'></i></a>";
+                $actions .= "</div> ";
+
+                return $actions;
+            })
             ->setRowId('id');
     }
 
@@ -46,20 +55,20 @@ class SectionDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('section-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('section-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -71,12 +80,14 @@ class SectionDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
+            Column::make('section_name'),
+            Column::make('description'),
+            Column::make('created_by'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];

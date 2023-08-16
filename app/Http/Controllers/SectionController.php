@@ -8,9 +8,12 @@ use App\Enums\MessagesEnum;
 use App\Traits\WebResponce;
 use Illuminate\Http\Request;
 use App\Services\SectionService;
+
+use App\DataTables\SectionDataTable;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SectionRequset;
 use App\Repositories\SectionRepository;
+use Yajra\DataTables\Facades\DataTables;
 
 class SectionController extends Controller
 {
@@ -21,14 +24,15 @@ class SectionController extends Controller
     {
         $this->sectionRepository = $sectionRepository;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(SectionDataTable $dataTable)
     {
+
+        if (request()->ajax()) {
+            return $dataTable->ajax()->content();
+        }
         return view('dashboard.sections.index');
+
     }
 
     public function store(SectionRequset $request)
@@ -43,49 +47,31 @@ class SectionController extends Controller
 
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Section $section)
+    public function update(SectionRequset $request)
     {
-        //
+        try {
+
+            $section = $this->sectionRepository->UpdateSection($request);
+            return $this->success(MessagesEnum::UpdatetItem, 'admin.sections.index');
+
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), "admin.sections.index");
+
+        }
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Section $section)
+    public function destroy(Request $request)
     {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Section $section)
-    {
-        //
-    }
+        try {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Section $section)
-    {
-        //
+            $this->sectionRepository->DeleteSection($request->section_id);
+            return $this->success(MessagesEnum::DeletItem, 'admin.sections.index');
+
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), "admin.sections.index");
+
+        }
     }
 }

@@ -35,6 +35,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         //--------------------sections routes----------------------------
         Route::get('/sections', [SectionController::class, 'index'])->name('sections.index');
         Route::Post('/sections/store', [SectionController::class, 'store'])->name('sections.store');
+        Route::Post('/sections/update', [SectionController::class, 'update'])->name('sections.update');
+        Route::Post('/sections/delete', [SectionController::class, 'destroy'])->name('sections.delete');
     });
 
     Route::resource('invoices', InvoicesController::class);

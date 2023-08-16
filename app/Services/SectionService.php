@@ -9,17 +9,20 @@ use Illuminate\Support\Facades\Auth;
 class SectionService
 {
 
-    public function CreateSectionDTO($SectionData) :SectionDTO {
-        return  new SectionDTO(
+    public function CreateSectionDTO($SectionData): SectionDTO
+    {
+        return new SectionDTO(
+            $SectionData->input('section_id'),
             $SectionData->input('section_name'),
             $SectionData->input('description'),
             Auth::user()->name
         );
 
     }
-    public function CreateSection(SectionDTO $SectionData) :Section
+    public function CreateOrUpdateSection(SectionDTO $SectionData): Section
     {
-        $newSection =  Section::create(
+        $newSection = Section::updateOrCreate(
+            ['id' => $SectionData->section_id],
             [
                 'section_name' => $SectionData->section_name,
                 'description' => $SectionData->description,
@@ -28,5 +31,12 @@ class SectionService
             ]
         );
         return $newSection;
+    }
+
+    public function FindById($id)
+    {
+        $section = Section::find($id);
+
+        return $section;
     }
 }

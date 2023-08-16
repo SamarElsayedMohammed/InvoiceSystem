@@ -21,94 +21,37 @@
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-sm">
                     انشاء قسم جديد
                 </button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-sm2">
+                    تعديل قسم
+                </button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="datatable-crud" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th> اسم القسم</th>
                             <th> ملاحظات</th>
-                            <th> العمليات</th>
+                            <th> مضاف بواسطه </th>
+                            <th> مضاف منذ</th>
+                            <th> معدل منذ</th>
+                            <th> العمليان</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>All others</td>
-                            <td>All others</td>
-                            <td>
-                                <div class="row">
-                                    <button type="button" class="col-3 btn-xs mr-2 btn  btn-primary">التعديلات</button>
-                                    <button type="button" class="col-3 btn-xs btn  btn-danger">حذف</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>All others</td>
-                            <td>All others</td>
-                            <td>
-                                <div class="row">
-                                    <button type="button" class="col-3 btn-xs mr-2 btn  btn-primary">التعديلات</button>
-                                    <button type="button" class="col-3 btn-xs btn  btn-danger">حذف</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>10</th>
-                            <th>Browser</th>
-                            <th>Platform(s)</th>
-                            <th>Engine version</th>
 
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
             <!-- /.card-body -->
         </div>
     </div>
 
-    <div class="modal fade " id="modal-sm">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content ">
-                <div class="modal-header">
-                    <h4 class="modal-title">اضافه قسم</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    @include('dashboard.sections.create')
+    @include('dashboard.sections.edit')
+    @include('dashboard.sections.delete')
 
-                <form action="{{ route('admin.sections.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            {{-- <label for="exampleInputEmail1">اسم القسم</label>
-                            <input type="text" name="section_name" class="form-control" id="exampleInputEmail1"
-                                placeholder="اسم القسم"> --}}
-                            <x-form.input type="text" name="section_name" label="true" id="section_name_id"
-                                labelName="اسم القسم" />
-
-                        </div>
-                        <div class="form-group">
-
-                            <x-form.textarea name="description" label="true" id="description_id" labelName=" الوصف" />
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
     @push('scripts')
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -128,15 +71,72 @@
         <script src="{{ asset('dist/js/demo.js') }}"></script>
         <!-- Page specific script -->
         <script>
-            $(function() {
-                $("#example1").DataTable({
-                    "responsive": true,
-                    "lengthChange": true,
-                    "autoWidth": true,
-                    "ordering": true,
-                    "paging": true,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $(document).ready(function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $('#datatable-crud').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('admin.sections.index') }}",
+                    columns: [{
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'section_name',
+                            name: 'section_name'
+                        },
+                        {
+                            data: 'description',
+                            name: 'description'
+                        },
+                        {
+                            data: 'created_by',
+                            name: 'created_by'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action'
+                        },
+                    ],
+                    order: [
+                        [0, 'desc']
+                    ]
+                });
+            });
+        </script>
+        <script>
+            $('#modal-sm2').on('shown.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var section_name = button.data('section_name')
+                var section_description = button.data('section_description')
+                var modal = $(this)
+                document.getElementById('section_id').value = id;
+                modal.find('.modal-body #section_name_id').val(section_name);
+                modal.find('.modal-body #description_id').val(section_description);
+            });
+        </script>
+        <script>
+            $('#modal-sm3').on('shown.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                // console.log(id);
+                var section_name = button.data('section_name')
+                var modal = $(this)
+                document.getElementById('delete_section_id').value = id;
+                document.getElementById('delete_section_name_id').textContent = " حذف القسم : " + section_name
 
             });
         </script>
