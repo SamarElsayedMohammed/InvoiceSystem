@@ -6,9 +6,9 @@ use Exception;
 use App\DTO\SectionDTO;
 use App\Enums\MessagesEnum;
 use App\Services\SectionService;
-use App\Interfaces\SectionInterface;
+use App\Interfaces\CRUDInterface;
 
-class SectionRepository implements SectionInterface
+class SectionRepository implements CRUDInterface
 {
     private SectionService $sectionService;
 
@@ -16,35 +16,35 @@ class SectionRepository implements SectionInterface
     {
         $this->sectionService = $sectionService;
     }
-    public function GetSectionById(int $id)
+    public function GetById(int $id)
     {
 
     }
-    public function GetAllSections()
+    public function GetAlls()
     {
 
     }
 
-    public function StoreNewSection($SectionData)
+    public function StoreNew($SectionData)
     {
-        $sectionData = $this->sectionService->CreateSectionDTO($SectionData);
+        $sectionData = $this->sectionService->CreateDTO($SectionData);
 
-        return $this->sectionService->CreateOrUpdateSection($sectionData);
+        return $this->sectionService->CreateOrUpdate($sectionData);
 
     }
 
-    public function UpdateSection($SectionData)
+    public function Update($SectionData)
     {
 
-        $sectionData = $this->sectionService->CreateSectionDTO($SectionData);
+        $sectionData = $this->sectionService->CreateDTO($SectionData);
         $Section = $this->sectionService->FindById($SectionData->section_id);
         if ($Section != null) {
-            return $this->sectionService->CreateOrUpdateSection($sectionData);
+            return $this->sectionService->CreateOrUpdate($sectionData);
         }
         throw new Exception("Item NOt FOund");
     }
 
-    public function DeleteSection(int $id)
+    public function Delete(int $id)
     {
         $Section = $this->sectionService->FindById($id);
         if ($Section != null) {
@@ -54,7 +54,7 @@ class SectionRepository implements SectionInterface
 
     }
 
-    public function DeleteAllSections()
+    public function DeleteAll()
     {
 
     }

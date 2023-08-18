@@ -2,6 +2,8 @@
 
 namespace App\DTO;
 
+use App\Interfaces\DTOInterface;
+
 class SectionDTO
 {
 
