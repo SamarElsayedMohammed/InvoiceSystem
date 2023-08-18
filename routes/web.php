@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SectionController;
 
 /*
@@ -37,6 +38,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::Post('/sections/store', [SectionController::class, 'store'])->name('sections.store');
         Route::Post('/sections/update', [SectionController::class, 'update'])->name('sections.update');
         Route::Post('/sections/delete', [SectionController::class, 'destroy'])->name('sections.delete');
+
+        //--------------------Products routes----------------------------
+        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::Post('/products/store', [ProductController::class, 'store'])->name('products.store');
+        Route::Post('/products/update', [ProductController::class, 'update'])->name('products.update');
+        Route::Post('/products/delete', [ProductController::class, 'destroy'])->name('products.delete');
     });
 
     Route::resource('invoices', InvoicesController::class);

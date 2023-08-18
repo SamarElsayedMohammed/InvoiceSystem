@@ -2,7 +2,8 @@
 
 namespace App\Traits;
 
-trait WebResponce{
+trait WebResponce
+{
 
     public function success($message, $route)
     {

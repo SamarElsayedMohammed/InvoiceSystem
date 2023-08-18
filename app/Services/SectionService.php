@@ -5,21 +5,22 @@ namespace App\Services;
 use App\DTO\SectionDTO;
 use App\Models\Section;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ServicesInterface;
 
-class SectionService
+class SectionService implements ServicesInterface
 {
 
-    public function CreateSectionDTO($SectionData): SectionDTO
+    public function CreateDTO($SectionData): SectionDTO
     {
         return new SectionDTO(
-            $SectionData->input('section_id'),
+            $SectionData->input('section_id') ?? 0,
             $SectionData->input('section_name'),
             $SectionData->input('description'),
             Auth::user()->name
         );
 
     }
-    public function CreateOrUpdateSection(SectionDTO $SectionData): Section
+    public function CreateOrUpdate($SectionData): Section
     {
         $newSection = Section::updateOrCreate(
             ['id' => $SectionData->section_id],
@@ -39,4 +40,5 @@ class SectionService
 
         return $section;
     }
+
 }

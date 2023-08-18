@@ -39,7 +39,7 @@ class SectionController extends Controller
     {
         try {
 
-            $this->sectionRepository->StoreNewSection($request);
+            $this->sectionRepository->StoreNew($request);
 
             return $this->success(MessagesEnum::CreateItem, 'admin.sections.index');
         } catch (\Exception $e) {
@@ -51,7 +51,7 @@ class SectionController extends Controller
     {
         try {
 
-            $section = $this->sectionRepository->UpdateSection($request);
+            $section = $this->sectionRepository->Update($request);
             return $this->success(MessagesEnum::UpdatetItem, 'admin.sections.index');
 
         } catch (\Exception $e) {
@@ -65,8 +65,7 @@ class SectionController extends Controller
     {
 
         try {
-
-            $this->sectionRepository->DeleteSection($request->section_id);
+            $this->sectionRepository->Delete($request->section_id);
             return $this->success(MessagesEnum::DeletItem, 'admin.sections.index');
 
         } catch (\Exception $e) {
