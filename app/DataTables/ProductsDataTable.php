@@ -33,7 +33,10 @@ class ProductsDataTable extends DataTable
 
                 return $actions;
             })
-            ->setRowId('id');
+            ->setRowId('id')
+            ->editColumn('section_id', function ($product) {
+                return $product->section->section_name;
+            });
     }
 
     /**

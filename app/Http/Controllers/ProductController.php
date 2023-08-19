@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\DataTables\ProductsDataTable;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\SectionRequset;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
@@ -22,7 +23,6 @@ class ProductController extends Controller
 
     public function index(ProductsDataTable $dataTable)
     {
-
         if (request()->ajax()) {
             return $dataTable->ajax()->content();
         }
@@ -34,9 +34,9 @@ class ProductController extends Controller
     {
         try {
 
-        $this->ProductRepository->StoreNew($request);
+            $this->ProductRepository->StoreNew($request);
 
-        return $this->success("Item created ", 'admin.products.index');
+            return $this->success("Item created ", 'admin.products.index');
         } catch (\Exception $e) {
             return $this->error(MessagesEnum::CodeError, "admin.products.index");
 

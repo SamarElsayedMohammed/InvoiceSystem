@@ -27,6 +27,7 @@ class SectionController extends Controller
 
     public function index(SectionDataTable $dataTable)
     {
+        return Section::with('Products')->get();
 
         if (request()->ajax()) {
             return $dataTable->ajax()->content();
