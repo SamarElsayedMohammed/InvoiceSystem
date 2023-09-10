@@ -21,6 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -123,7 +124,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     @stack('scripts')
-
+    @livewireScripts
 </body>
 
 </html>
