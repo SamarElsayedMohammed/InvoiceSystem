@@ -4,7 +4,8 @@
     @enderror'
         id="exampleSelectRounded0">
         @foreach ($sections as $item)
-            <option value="{{ $item->id }}">{{ $item->section_name }}</option>
+            <option value="{{ $item->id }}" wire:click="increment({{ $item->id }})">{{ $item->section_name }}
+            </option>
         @endforeach
 
     </select>

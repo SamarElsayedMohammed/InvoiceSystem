@@ -2,7 +2,6 @@
 
 namespace App\DTO;
 
-use App\Interfaces\DTOInterface;
 
 class ProductDTO
 {
@@ -19,4 +18,5 @@ class ProductDTO
         $this->product_name = $product_name;
         $this->description = $description;
     }
+
 }

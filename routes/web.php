@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\InvoiceFilesController;
+use App\Http\Livewire\GetProducts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoicesDetailsController;
+use App\Http\Controllers\UserController;
+use App\Models\InvoicesDetails;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +26,10 @@ use App\Http\Controllers\SectionController;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('get-products', GetProducts::class)->name('livewire.sections');
 
 Route::get('/dashboard', function () {
+
     return view('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -44,9 +51,43 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::Post('/products/store', [ProductController::class, 'store'])->name('products.store');
         Route::Post('/products/update', [ProductController::class, 'update'])->name('products.update');
         Route::Post('/products/delete', [ProductController::class, 'destroy'])->name('products.delete');
+        //--------------------invoices routes----------------------------
+        Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index');
+        Route::get('/invoices/export', [InvoicesController::class, 'export'])->name('invoices.export');
+        Route::get('/invoices/archived-invoice', [InvoicesController::class, 'ArchivedInvoice'])->name('invoices.archived.invoice');
+        Route::get('/invoices/create', [InvoicesController::class, 'create'])->name('invoices.create');
+        Route::Post('/invoices/store', [InvoicesController::class, 'store'])->name('invoices.store');
+        Route::get('/invoices/show/{id}', [InvoicesController::class, 'show'])->name('invoices.show');
+        Route::get('/invoices/print-invoice/{id}', [InvoicesDetailsController::class, 'PrintInvoice'])->name('invoices.Print');
+        Route::get('/invoices/status/{status}', [InvoicesController::class, 'SatatusInvoice'])->name('invoices.status');
+        Route::get('/invoices/edit/{id}', [InvoicesController::class, 'edit'])->name('invoices.edit');
+        Route::get('/invoices/restore/{id}', [InvoicesController::class, 'RestoreInvoice'])->name('invoices.restore');
+        Route::get('/invoices/delete-forever/{id}', [InvoicesController::class, 'DeleteForeverInvoice'])->name('invoices.deleteForever.Invoice');
+        Route::get('/invoices/delete/{id}', [InvoicesController::class, 'destroy'])->name('invoices.destroy');
+        Route::post('/invoices/update', [InvoicesController::class, 'update'])->name('invoices.update');
+        Route::post('/invoices/archive-all', [InvoicesController::class, 'ArchiveAll'])->name('invoices.Archive.All');
+        Route::get("/show-actions", [InvoicesController::class, "ShowDeletedActions"])->name("invoices.ShowDeletedActions");
+        // ----------------------------invoic details route------------------------
+        Route::get('/invoices/details/{id}', [InvoicesDetailsController::class, "index"])->name("invoices.deatails");
+        Route::get('/invoices/sections/{section_id}', [InvoicesDetailsController::class, "SectionInvoices"])->name("invoices.Section.Invoices");
+        Route::get('/invoices/mark-all-readed', [InvoicesDetailsController::class, "MarkAllReaded"])->name("invoices.MarkAllReaded");
+
+        Route::post("/invoice/file/show", [InvoiceFilesController::class, "show"])->name("invoice.file.show");
+        Route::post("/invoice/file/download", [InvoiceFilesController::class, "downloadFile"])->name("invoice.file.download");
+        Route::post("/invoice/file/delete", [InvoiceFilesController::class, "DeleteFile"])->name("invoice.file.delete");
+        Route::post("/invoice/file/upload-image", [InvoiceFilesController::class, "UploadImage"])->name("invoice.file.uplode");
+
+        // ---------------------------user routes-------------------------
+        Route::get('/users', [UserController::class, "index"])->name("users.index");
+        Route::get('/users/create', [UserController::class, "create"])->name("users.create");
+        Route::get('/users/edit/{id}', [UserController::class, "edit"])->name("users.edit");
+        Route::get('/users/delete/{id}', [UserController::class, "delete"])->name("users.delete");
+        Route::post('/users/store', [UserController::class, "store"])->name("users.store");
+        Route::post('/users/update', [UserController::class, "update"])->name("users.update");
+
     });
 
-    Route::resource('invoices', InvoicesController::class);
+    // Route::resource('invoices', InvoicesController::class);
     require __DIR__ . '/auth.php';
 });
 

@@ -14,7 +14,7 @@ class ProductService implements ServicesInterface
     {
         return new ProductDTO(
             $ProductData->input('section_id'),
-            $ProductData->input('product_id'),
+            $ProductData->input('product_id') ?? 0,
             $ProductData->input('product_name'),
             $ProductData->input('description'),
         );

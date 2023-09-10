@@ -20,19 +20,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                    <a href="{{ route('admin.invoices.archived.invoice') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>قائمه الفواتير المؤرشفه</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.invoices.status', 1) }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>الفواتير المدفوعه</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/layout/boxed.html" class="nav-link">
+                    <a href="{{ route('admin.invoices.status', 2) }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>الفواتير الغير مدفوعه</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                    <a href="{{ route('admin.invoices.status', 3) }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>الفواتير المدفوعه جزئيا</p>
                     </a>
