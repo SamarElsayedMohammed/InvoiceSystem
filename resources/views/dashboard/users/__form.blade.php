@@ -19,4 +19,17 @@
             labelName="تاكيد كلمه السر" />
 
     </div>
+    <div class="form-group">
+    <label for="exampleSelectRounded0">اختر الدور</label>
+    <select name="roles" class='custom-select rounded-0 @error('roles')  is-invalid
+    @enderror'
+        id="exampleSelectRounded0">
+        @foreach ($roles as $item)
+            <option value="{{ $item }}" @selected(in_array($item,$userRole) )>{{ $item }}
+            </option>
+        @endforeach
+
+    </select>
+    <x-form.validation name="roles" />
+</div>
 </div>

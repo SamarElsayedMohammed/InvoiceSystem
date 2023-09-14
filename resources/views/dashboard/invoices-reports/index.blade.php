@@ -1,46 +1,45 @@
 <x-dashBoard.dash-board-home>
     <x-slot:breadcrumbs>
-        <x-dash-board.includes.breadcrumbs pageTilte="الفواتير">
-            <li class="breadcrumb-item active">قائمه الفواتير</li>
+        <x-dash-board.includes.breadcrumbs pageTilte="التقارير">
+            <li class="breadcrumb-item active">قائمه التقارير</li>
 
         </x-dash-board.includes.breadcrumbs>
     </x-slot:breadcrumbs>
     <div class="col-12">
         <x-dash-board.session-message-component type='success' />
         <x-dash-board.session-message-component type='danger' />
-
-        <form action="{{ route('admin.invoices.Archive.All') }}" method="POST">
+        <form action="#" method="POST">
             @csrf
             <div class="card">
                 <div class="card-header d-flex flex-row justify-content-between">
-                    <a href="{{ route('admin.invoices.create') }}" type="button" class="btn btn-default align-self-end">
-                        انشاء فاتوره
+                    <a href="{{ route('admin.invoices.export') }}" type="button"
+                        class="btn btn-default align-self-end">
+                        تصدير ملف اكسيل
                     </a>
-                    <input class="btn btn-outline-primary" type="submit" value="ارشفه الكل">
-
                 </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="datatable-crud" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>رقم الفاتوره</th>
-                            <th> المنتج</th>
-                            <th> القسم</th>
-                            <th> مبلغ التحصيل</th>
-                            <th> الحاله</th>
-                            <th> العمليان</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="datatable-crud" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>رقم الفاتوره</th>
+                                <th> المنتج</th>
+                                <th> القسم</th>
+                                <th> مبلغ التحصيل</th>
+                                <th> الحاله</th>
+                                <th> العمليان</th>
 
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                    </table>
+                </div>
         </form>
+        <!-- /.card-body -->
+    </div>
     </div>
 
     @include('dashboard.sections.create')
@@ -75,7 +74,7 @@
                 $('#datatable-crud').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('admin.invoices.Section.Invoices', Request::route('section_id')) }}",
+                    ajax: "{{ route('admin.invoices.reports.index') }}",
                     columns: [{
                             data: 'id',
                             name: 'id'

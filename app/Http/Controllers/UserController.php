@@ -11,6 +11,12 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
     public function index(UserDataTable $dataTable)
     {
         if (request()->ajax()) {
@@ -22,7 +28,8 @@ class UserController extends Controller
     {
         $user = new User;
         $roles = Role::pluck('name', 'name')->all();
-        return view('dashboard.users.create', compact('user', 'roles'));
+        $userRole =array();
+        return view('dashboard.users.create', compact('user', 'roles','userRole'));
 
     }
     public function edit($id)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InvoiceFilesController;
+use App\Http\Controllers\InvoiceReportsController;
 use App\Http\Livewire\GetProducts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\InvoicesDetails;
 
@@ -84,7 +86,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/users/delete/{id}', [UserController::class, "delete"])->name("users.delete");
         Route::post('/users/store', [UserController::class, "store"])->name("users.store");
         Route::post('/users/update', [UserController::class, "update"])->name("users.update");
-
+        // ---------------------------roles routes-------------------------
+        Route::get('/roles', [RoleController::class, "index"])->name("roles.index");
+        Route::get('/roles/create', [RoleController::class, "create"])->name("roles.create");
+        Route::get('/roles/edit/{id}', [RoleController::class, "edit"])->name("roles.edit");
+        Route::get('/roles/delete/{id}', [RoleController::class, "destroy"])->name("roles.delete");
+        Route::post('/roles/store', [RoleController::class, "store"])->name("roles.store");
+        Route::post('/roles/update/{id}', [RoleController::class, "update"])->name("roles.update");
+        // ---------------------------invoices reports routes-------------------------
+        Route::get('/invoice-report', [InvoiceReportsController::class, "index"])->name("invoices.reports.index");
     });
 
     // Route::resource('invoices', InvoicesController::class);

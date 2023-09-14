@@ -23,6 +23,10 @@ class SectionController extends Controller
     public function __construct(SectionRepository $sectionRepository)
     {
         $this->sectionRepository = $sectionRepository;
+        $this->middleware('permission:section-list|section-create|section-edit|section-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:section-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:section-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:section-delete', ['only' => ['destroy']]);
     }
 
     public function index(SectionDataTable $dataTable)
