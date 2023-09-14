@@ -1,7 +1,7 @@
 <x-dashBoard.dash-board-home>
     <x-slot:breadcrumbs>
-        <x-dash-board.includes.breadcrumbs pageTilte="المستخدمين">
-            <li class="breadcrumb-item active">انشاء مستخدم جديد</li>
+        <x-dash-board.includes.breadcrumbs pageTilte="الادوار">
+            <li class="breadcrumb-item active">انشاء دور جديد</li>
 
         </x-dash-board.includes.breadcrumbs>
     </x-slot:breadcrumbs>
@@ -11,16 +11,16 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <h3 class="card-title">انشاء مستخدم جديد</h3>
+                <h3 class="card-title">انشاء دور جديد</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form action="{{ route('admin.users.store') }}" method="POST">
+                <form action="{{ route('admin.roles.store') }}" method="POST">
                     @csrf
-                    @include('dashboard.users.__form')
+                    @include('dashboard.roles.__form')
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">اغلاق</button>
-                        <button style="color:black;" type="submit" class="btn btn-primary">حفظ</button>
+                        <button style="color:rgb(255, 255, 255);" type="submit" class="btn btn-primary">حفظ</button>
                     </div>
                 </form>
             </div>

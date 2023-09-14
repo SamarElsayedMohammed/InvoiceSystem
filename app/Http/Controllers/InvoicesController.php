@@ -31,9 +31,15 @@ class InvoicesController extends Controller
     function __construct(InvoiceRepository $invoiceRepository)
     {
         $this->invoiceRepository = $invoiceRepository;
+        $this->middleware('permission:invoice-list|invoice-create|invoice-edit|invoice-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:invoice-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:invoice-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:invoice-delete', ['only' => ['destroy']]);
     }
+
     public function index(InvoiceDataTable $dataTable)
     {
+
         if (request()->ajax()) {
             return $dataTable->ajax()->content();
         }

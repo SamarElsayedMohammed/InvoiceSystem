@@ -9,7 +9,7 @@
         <x-dash-board.session-message-component type='success' />
         <x-dash-board.session-message-component type='danger' />
 
-        <form action="{{ route('admin.invoices.Archive.All') }}" method="POST">
+       <form action="{{ route('admin.invoices.Archive.All') }}" method="POST">
             @csrf
             <div class="card">
                 <div class="card-header d-flex flex-row justify-content-between">
@@ -40,7 +40,7 @@
             </div>
             <!-- /.card-body -->
         </div>
-        </form>
+       </form>
     </div>
 
     @include('dashboard.sections.create')
@@ -48,20 +48,6 @@
     @include('dashboard.sections.delete')
 
     @push('scripts')
-     <!-- DataTables  & Plugins -->
-        <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-        <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-        <!-- AdminLTE App -->
         <!-- AdminLTE for demo purposes -->
         <script src="{{ asset('dist/js/demo.js') }}"></script>
         <!-- Page specific script -->
@@ -75,7 +61,7 @@
                 $('#datatable-crud').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('admin.invoices.Section.Invoices', Request::route('section_id')) }}",
+                    ajax: "{{ route('admin.invoices.archived.invoice') }}",
                     columns: [{
                             data: 'id',
                             name: 'id'

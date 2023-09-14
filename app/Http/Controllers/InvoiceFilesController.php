@@ -11,11 +11,16 @@ use Illuminate\Support\Facades\Storage;
 
 class InvoiceFilesController extends Controller
 {
+
     use WebResponce;
     private FileService $fileService;
     public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
+        $this->middleware('permission:invoice-details-list', ['only' => ['show']]);
+        $this->middleware('permission:invoice-details-download', ['only' => ['downloadFile']]);
+        $this->middleware('permission:invoice-details-upload', ['only' => ['UploadImage']]);
+        $this->middleware('permission:invoice-details-delete', ['only' => ['DeleteFile']]);
     }
     public function show(Request $request)
     {
