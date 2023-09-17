@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\InvoiceFilesController;
-use App\Http\Controllers\InvoiceReportsController;
+use App\Models\InvoicesDetails;
 use App\Http\Livewire\GetProducts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoiceFilesController;
+use App\Http\Controllers\InvoiceReportsController;
 use App\Http\Controllers\InvoicesDetailsController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Models\InvoicesDetails;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +31,7 @@ Route::get('/', function () {
 });
 Route::get('get-products', GetProducts::class)->name('livewire.sections');
 
-Route::get('/dashboard', function () {
-
-    return view('home');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 
@@ -95,6 +93,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('/roles/update/{id}', [RoleController::class, "update"])->name("roles.update");
         // ---------------------------invoices reports routes-------------------------
         Route::get('/invoice-report', [InvoiceReportsController::class, "index"])->name("invoices.reports.index");
+        Route::get('/invoice-filter', [InvoiceReportsController::class, "DateFilter"])->name("invoices.reports.filter");
+        Route::get('/invoice-filter-invoice-number', [InvoiceReportsController::class, "DateFilterByInvoiceNumber"])->name("invoices.reports.Filter.By.Invoice.Number");
+        Route::get('/invoice-filter-invoice-status', [InvoiceReportsController::class, "DateFilterByInvoiceStatus"])->name("invoices.reports.Filter.By.Invoice.Status");
     });
 
     // Route::resource('invoices', InvoicesController::class);

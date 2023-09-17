@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\home;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $invoice = Invoice::select('Status', \DB::raw('count(*) as count'))
+            ->groupBy('Status')->pluck('count', 'Status');
+
+        $labels = $invoice->keys();
+        $data = $invoice->values();
+
+        return view('home', compact('labels', 'data'));
     }
 }

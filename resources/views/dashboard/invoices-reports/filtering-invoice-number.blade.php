@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label for="exampleSelectRounded0">اختر نوع الفاتوره</label>
                                     <select name="status_id"
-                                        class='custom-select rounded-0 @error('status_id') is-invalid @enderror'
+                                        class='custom-select rounded-0 @error("status_id") is-invalid @enderror '
                                         id="exampleSelectRounded0">
                                         <option value="1">مدفوعه</option>
                                         <option value="2">غير مدفوعه</option>
@@ -157,7 +157,7 @@
                 $('#datatable-crud').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "/admin/invoice-filter?from_Date={{ request()->from_Date }}&to_Date={{ request()->to_Date }}",
+                    ajax: "/admin/invoice-filter-invoice-number?invoice_number={{ request()->invoice_number }}",
                     columns: [{
                             data: 'id',
                             name: 'id'

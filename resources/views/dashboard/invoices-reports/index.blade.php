@@ -8,37 +8,67 @@
     <div class="col-12">
         <x-dash-board.session-message-component type='success' />
         <x-dash-board.session-message-component type='danger' />
-        <form action="#" method="POST">
-            @csrf
+        <form action="{{ route('admin.invoices.reports.filter') }}">
             <div class="card">
-                <div class="card-header d-flex flex-row justify-content-between">
-                    <a href="{{ route('admin.invoices.export') }}" type="button"
-                        class="btn btn-default align-self-end">
-                        تصدير ملف اكسيل
-                    </a>
-                </div>
+                <div class="card-header">
 
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="datatable-crud" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>رقم الفاتوره</th>
-                                <th> المنتج</th>
-                                <th> القسم</th>
-                                <th> مبلغ التحصيل</th>
-                                <th> الحاله</th>
-                                <th> العمليان</th>
+                    <div class="row ">
+                        <div class="col-12 d-flex justify-content-end">
+                            <a href="{{ route('admin.invoices.export') }}" type="button"
+                                class="btn btn-default align-self-start">
+                                تصدير ملف اكسيل
+                            </a>
+                        </div>
+                        <div class="col-5 mt-3 ">
 
-                            </tr>
-                        </thead>
-                        <tbody>
+                            <div class="form-group">
+                                <x-form.input class="rounded" type="date" name="from_Date" label="true"
+                                    id="from_Date_id" labelName="من تاريخ" />
+                            </div>
 
-                    </table>
-                </div>
+                        </div>
+                        <div class="col-5 mt-3">
+
+                            <div class="form-group">
+                                <x-form.input class="rounded" type="date" name="to_Date" label="true"
+                                    id="to_Date_id" labelName="الى تاريخ" />
+                            </div>
+
+                        </div>
+                        <div class="col-2 mt-5">
+
+                            <div class="form-group">
+                                <input class="form-control rounded" type="submit"  label="true" value="بحث" />
+                            </div>
+
+                        </div>
+                    </div>
         </form>
-        <!-- /.card-body -->
+
+
+
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="datatable-crud" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم الفاتوره</th>
+                    <th> المنتج</th>
+                    <th> القسم</th>
+                    <th> مبلغ التحصيل</th>
+                    <th> الحاله</th>
+                    <th> العمليان</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+        </table>
+    </div>
+    <!-- /.card-body -->
     </div>
     </div>
 
@@ -47,7 +77,7 @@
     @include('dashboard.sections.delete')
 
     @push('scripts')
-     <!-- DataTables  & Plugins -->
+        <!-- DataTables  & Plugins -->
         <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
