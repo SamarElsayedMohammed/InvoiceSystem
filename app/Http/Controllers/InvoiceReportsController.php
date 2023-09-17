@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Carbon\Carbon;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\DataTables\InvoiceDataTable;
 
@@ -17,14 +20,43 @@ class InvoiceReportsController extends Controller
         return view('dashboard.invoices-reports.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function DateFilter(InvoiceDataTable $dataTable)
     {
-        //
+        $from_date = (Carbon::parse(new \Carbon\Carbon(request()->from_Date)));
+        $to_date = (Carbon::parse(new \Carbon\Carbon(request()->to_Date)));
+        if (request()->ajax()) {
+            return $dataTable
+                ->with([
+                    'invoice_from_date' => $from_date,
+                    'invoice_to_date' => $to_date
+                ])
+                ->ajax()->content();
+        }
+        return view('dashboard.invoices-reports.filtering');
+    }
+    public function DateFilterByInvoiceNumber(InvoiceDataTable $dataTable)
+    {
+
+        if (request()->ajax()) {
+            return $dataTable
+                ->with([
+                    'invoice_number' => request()->invoice_number,
+                ])
+                ->ajax()->content();
+        }
+        return view('dashboard.invoices-reports.filtering-invoice-number');
+    }
+    public function DateFilterByInvoiceStatus(InvoiceDataTable $dataTable)
+    {
+        // return request()->invoiceStatus;
+        if (request()->ajax()) {
+            return $dataTable
+                ->with([
+                    'invoiceStatus' => request()->invoiceStatus,
+                ])
+                ->ajax()->content();
+        }
+        return view('dashboard.invoices-reports.filtering-invoice-status');
     }
 
     /**

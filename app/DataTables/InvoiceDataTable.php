@@ -72,6 +72,7 @@ class InvoiceDataTable extends DataTable
      */
     public function query(Invoice $model): QueryBuilder
     {
+
         return $model->newQuery()
             ->select("id", "invoice_number", "section_id", "product_id", "Amount_collection", "status", "Value_Status")
             ->when($this->section_id != null, function ($query) {
@@ -82,8 +83,19 @@ class InvoiceDataTable extends DataTable
             })
             ->when($this->status != null, function ($query) {
                 $query->where('Value_Status', '=', $this->status);
-            });
+            })
+            ->when($this->invoice_from_date && $this->invoice_to_date, function ($query) {
+                $query->whereBetween('created_at', [$this->invoice_from_date, $this->invoice_to_date]);
+            })
+            ->when($this->invoice_number != null, function ($query) {
+                $query->where('invoice_number', $this->invoice_number);
+            })
+            ->when($this->invoiceStatus, function ($query) {
+                $query->where('Value_Status', $this->invoiceStatus);
+            })
+        ;
     }
+
 
     /**
      * Optional method if you want to use html builder.
@@ -124,6 +136,8 @@ class InvoiceDataTable extends DataTable
             Column::make('product'),
             Column::make('section'),
             Column::make('action')->width("50px"),
+
+
         ];
     }
 

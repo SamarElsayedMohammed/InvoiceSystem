@@ -75,15 +75,16 @@
 
                                 <div class="form-group">
                                     <label for="exampleSelectRounded0">اختر نوع الفاتوره</label>
-                                    <select name="status_id"
-                                        class='custom-select rounded-0 @error('status_id') is-invalid @enderror'
+                                    <select name="invoiceStatus"
+                                        class='custom-select rounded-0 @error(' invoiceStatus')
+                                        is-invalid @enderror'
                                         id="exampleSelectRounded0">
                                         <option value="1">مدفوعه</option>
                                         <option value="2">غير مدفوعه</option>
                                         <option value="3">مدفوعه جزئيا</option>
 
                                     </select>
-                                    <x-form.validation name="status_id" />
+                                    <x-form.validation name="invoiceStatus" />
                                 </div>
 
 
@@ -99,7 +100,8 @@
                         </form>
                     </div>
                 </div>
-                {{-- </div> --}}
+                {{--
+            </div> --}}
             </div>
 
             <!-- /.card-header -->
@@ -157,7 +159,11 @@
                 $('#datatable-crud').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "/admin/invoice-filter?from_Date={{ request()->from_Date }}&to_Date={{ request()->to_Date }}",
+                    dom: 'Blfrtip',
+                    buttons: [
+                        'print',
+                    ],
+                    ajax: "/admin/invoice-filter-invoice-status?invoiceStatus={{ request()->invoiceStatus }}",
                     columns: [{
                             data: 'id',
                             name: 'id'
@@ -191,6 +197,8 @@
                         [0, 'desc']
                     ]
                 });
+                table.buttons().container()
+                    .appendTo('#datatable-crud_wrapper .d-flex ');
             });
         </script>
         <script>
